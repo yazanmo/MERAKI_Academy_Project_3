@@ -127,6 +127,23 @@ const deleteArticleById = (req,res)=>{
 }
 app.delete("/articles/:id",deleteArticleById)
 
+//ticket 7 
+
+const deleteArticlesByAuthor = (req,res)=>{
+  const author = req.body.author
+  for (let i=0; i < articles.length ; i++) {
+    if (author === articles[i].author){
+      articles.splice(i,1)
+      i=i-1
+    }
+  }
+  const obj = {success : true,massage :`Success delete all the articles for the author => ${author}`}
+  res.json(obj)
+}
+
+
+app.delete("/articles",deleteArticlesByAuthor)
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
