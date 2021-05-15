@@ -31,10 +31,24 @@ const articles = [
 ];
 
 
-app.get("/articles" , (req , res , next )=> {
-    res.status(200);
-    res.json(articles)
-})
+const getAllArticles = (req, res) => {
+  res.status(200);
+  res.json(articles);
+};
+
+app.get("/articles", getAllArticles);
+
+/////ticket 2
+const getArticlesByAuthor = (req, res) => {
+  const author = req.query.author;
+
+  const arr = articles.filter((ele, i) => {
+    return author === ele.author;
+  });
+  res.status(200);
+  res.json(arr);
+};
+app.get("/articles/search_1", getArticlesByAuthor);
 
 
 app.listen(port, () => {
