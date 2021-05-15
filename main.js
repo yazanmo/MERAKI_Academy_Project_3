@@ -110,7 +110,22 @@ const updateAnArticleById = (req,res)=>{
 
 app.put("/articles/:id",updateAnArticleById)
 
+//ticket 6
 
+const deleteArticleById = (req,res)=>{
+  id =  req.params.id
+  for (let i=0; i < articles.length ; i++){
+    if (id == articles[i].id ){
+      articles.splice(i,1);
+      res.status(200)
+      const obj = {success : true,massage :`Success Delete article with id => ${id}`}
+      res.json(obj)
+    }
+  }
+  res.status(404);
+    res.json(`not found article with id => ${id} `);
+}
+app.delete("/articles/:id",deleteArticleById)
 
 
 app.listen(port, () => {
