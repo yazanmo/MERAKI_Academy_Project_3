@@ -50,6 +50,27 @@ const getArticlesByAuthor = (req, res) => {
 };
 app.get("/articles/search_1", getArticlesByAuthor);
 
+//ticket 3 
+
+const getAnArticleById = (req, res) => {
+  const id = req.query.id;
+  const found = articles.find((ele, i) => {
+    return ele.id === parseInt(id);
+  });
+  if (found) {
+    console.log(found);
+    res.status(200);
+    res.json(found);
+  } else {
+    res.status(404);
+    res.json("not found");
+  }
+};
+
+app.get("/articles/search_2", getAnArticleById);
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
