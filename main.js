@@ -10,7 +10,6 @@ const port = 5000;
 app.use(express.json());
 
 
-//ticket 1 
 
 app.post("/users",(req,res)=>{
   const  {firstName,lastName,age,country,email,password}= req.body
@@ -23,12 +22,13 @@ app.post("/users",(req,res)=>{
   });
 })
 
+
 app.post("/articles",async (req,res)=>{
   let userId 
   
   await users.findOne({firstName:"ali"})
   .then((result)=>{
-    userId = result
+    userId = result._id
   }).catch((err) => {
     res.send(err);
   });
@@ -37,7 +37,7 @@ app.post("/articles",async (req,res)=>{
     const newArticle = new articles({
       title,
       description,
-      author:userId._id})
+      author:userIdid})
   
       newArticle.save()
       .then((result)=>{
@@ -48,6 +48,18 @@ app.post("/articles",async (req,res)=>{
       });
   
   });
+
+
+  app.get("/articles", (req,res)=>{
+    articles.find({})
+    .then(result=>{
+      res.status(200)
+      res.json(result)
+    }).catch((err) => {
+      res.send(err);
+    });
+  });
+
   
 
 
