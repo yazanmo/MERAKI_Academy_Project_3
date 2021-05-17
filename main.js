@@ -31,3 +31,23 @@ const articles = [
   },
 ];
 
+//ticket 1 
+
+app.post("/users",(req,res)=>{
+  const  {firstName,lastName,age,country,email,password}= req.body
+  const newUser = new  users( {firstName,lastName,age,country,email,password})
+  newUser.save().then((result)=>{
+    res.status(201)
+    res.json(result)
+  }).catch((err) => {
+    res.send(err);
+  });
+})
+
+
+
+
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
