@@ -9,27 +9,6 @@ const app = express();
 const port = 5000;
 app.use(express.json());
 
-//ticket 0
-const articles = [
-  {
-    id: 1,
-    title: "How I learn coding?",
-    description: "Lorem, Quam, mollitia.",
-    author: "Jouza",
-  },
-  {
-    id: 2,
-    title: "Coding Best Practices",
-    description: "Lorem, ipsum dolor sit, Quam, mollitia.",
-    author: "Besslan",
-  },
-  {
-    id: 3,
-    title: "Debugging",
-    description: "Lorem, Quam, mollitia.",
-    author: "Jouza",
-  },
-];
 
 //ticket 1 
 
@@ -44,8 +23,32 @@ app.post("/users",(req,res)=>{
   });
 })
 
-
-
+app.post("/articles",async (req,res)=>{
+  let userId 
+  
+  await users.findOne({firstName:"ali"})
+  .then((result)=>{
+    userId = result
+  }).catch((err) => {
+    res.send(err);
+  });
+  
+  const {title,description} = req.body
+    const newArticle = new articles({
+      title,
+      description,
+      author:userId._id})
+  
+      newArticle.save()
+      .then((result)=>{
+        res.status(201)
+        res.json(result)
+      }).catch((err) => {
+        res.send(err);
+      });
+  
+  });
+  
 
 
 app.listen(port, () => {
