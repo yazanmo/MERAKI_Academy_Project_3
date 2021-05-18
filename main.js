@@ -88,6 +88,23 @@ app.get("/articles/search_2",(req,res)=>{
 });
 
 
+app.put("/articles/:id",(req,res)=>{
+  const id = req.params.id;
+  const {title,description,author} = req.body
+  if (req.body.title && req.body.description && req.body.author){
+  articles.findByIdAndUpdate(id,{title,description,author},{new:true})
+  .then((result)=>{
+    res.status(200)
+    res.json(result)
+  }).catch((err) => {
+    res.send(err);
+  });
+ }else{
+  res.status(404);
+  res.json(" please enter title and  description ");
+ }
+});
+
   
 
 
