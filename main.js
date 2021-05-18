@@ -106,6 +106,20 @@ app.put("/articles/:id",(req,res)=>{
 });
 
   
+app.delete("/articles/:id",(req,res)=>{
+  const id = req.params.id;
+  articles.findByIdAndDelete(id).then((result)=>{
+    res.status(200)
+    res.json({
+      success: true,
+      massage: ` Delete article with id Successfull => ${id}`,
+    })
+  }).catch((err) => {
+    res.send(err);
+  });
+});
+
+
 
 
 app.listen(port, () => {
