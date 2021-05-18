@@ -119,7 +119,19 @@ app.delete("/articles/:id",(req,res)=>{
   });
 });
 
+app.delete("/articles",(req,res)=>{
+  const author = req.body.author;
 
+  articles.deleteMany({author:author}).then(result=>{
+    res.status(200)
+    res.json({
+      success: true,
+      massage: `delete all the articles for the author Successfull => ${author}`,
+    })
+  }).catch((err) => {
+    res.send(err);
+  });
+});
 
 
 app.listen(port, () => {
