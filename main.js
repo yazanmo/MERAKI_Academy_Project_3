@@ -60,6 +60,23 @@ app.post("/articles",async (req,res)=>{
     });
   });
 
+
+
+  
+  app.get("/articles/search_1", async (req,res)=>{
+  
+    const userId = req.query.author;
+    articles.find({author:userId}).then((result)=>{
+      res.status(200);
+      res.json(result)
+    }).catch((err) => {
+      res.send(err);
+    }); 
+  
+  });
+
+
+
   
 
 
