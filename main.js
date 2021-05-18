@@ -11,6 +11,7 @@ app.use(express.json());
 
 
 
+
 app.post("/users",(req,res)=>{
   const  {firstName,lastName,age,country,email,password}= req.body
   const newUser = new  users( {firstName,lastName,age,country,email,password})
@@ -21,6 +22,7 @@ app.post("/users",(req,res)=>{
     res.send(err);
   });
 })
+
 
 
 app.post("/articles",(req,res)=>{
@@ -37,6 +39,25 @@ app.post("/articles",(req,res)=>{
       });
   
   });
+
+
+  
+  app.post("/login",(req,res)=>{
+    const {email,password} = req.body;
+    users.findOne({email:email,password:password}).then((result)=>{
+      if (result){
+      res.status(200);
+      res.json("Valid login credentials");
+      }else{
+      res.status(401);
+      res.json("Invalid login credentials")};
+    }).catch((err) => {
+      res.send(err);
+    });
+  });
+
+
+
 
 
   app.get("/articles", (req,res)=>{
