@@ -3,7 +3,7 @@ const { uuid } = require("uuidv4");
 
 const db = require("./db")
 
-const {users,articles} = require("./schema")
+const {users,articles,comments} = require("./schema")
 
 const app = express();
 const port = 5000;
@@ -23,21 +23,10 @@ app.post("/users",(req,res)=>{
 })
 
 
-app.post("/articles",async (req,res)=>{
-  let userId 
-  
-  await users.findOne({firstName:"ali"})
-  .then((result)=>{
-    userId = result._id
-  }).catch((err) => {
-    res.send(err);
-  });
-  
+app.post("/articles",(req,res)=>{
+  const {title,description,author} = req.body
   const {title,description} = req.body
-    const newArticle = new articles({
-      title,
-      description,
-      author:userIdid})
+    const newArticle = new articles({title,description,author})
   
       newArticle.save()
       .then((result)=>{
