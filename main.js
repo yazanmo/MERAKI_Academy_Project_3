@@ -41,7 +41,7 @@ app.post("/articles",(req,res)=>{
   });
 
 
-  
+
   app.post("/login",(req,res)=>{
     const {email,password} = req.body;
     users.findOne({email:email,password:password}).then((result)=>{
@@ -61,7 +61,7 @@ app.post("/articles",(req,res)=>{
 
 
   app.get("/articles", (req,res)=>{
-    articles.find({})
+    articles.find({}).populate("comments","comment")
     .then(result=>{
       res.status(200)
       res.json(result)
@@ -138,6 +138,24 @@ app.delete("/articles",(req,res)=>{
       success: true,
       massage: `delete all the articles for the author Successfull => ${author}`,
     })
+  }).catch((err) => {
+    res.send(err);
+  });
+});
+
+
+
+app.post("/articles/:id/comments",(req,res)=>{
+  const id = req.params.id
+  const {comment,commenter} = req.body
+  const newComment = new comments({comment,commenter})
+  newComment.save().then(async (result)=>{
+   await articles.update(
+    { _id: id }, 
+    { $push: { comments: result._id } }
+);
+    res.status(201)
+    res.json(result)
   }).catch((err) => {
     res.send(err);
   });
