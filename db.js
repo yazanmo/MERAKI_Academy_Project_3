@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+require("dotenv").config();
 
 const option ={
 
@@ -8,13 +9,12 @@ const option ={
     useNewUrlparser:true,
 }
 
-mongoose.connect("mongodb://localhost:27017/project3",option)
-.then(()=>{
-       
-    console.log("db connected")
-},
-(err)=>{
+const url = process.env.DB_URI
+mongoose.connect(url, option).then(
+  () => {
+    console.log(`DB connected`);
+  },
+  (err) => {
+    console.log(err)})
 
-    console.log(err)
-}
-)
+    
