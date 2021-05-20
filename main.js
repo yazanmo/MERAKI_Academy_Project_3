@@ -1,5 +1,5 @@
 const express = require("express");
-const { uuid } = require("uuidv4");
+const uuid  = require("uuidv4");
 const axios = require("axios");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -45,7 +45,6 @@ app.post("/articles",(req,res)=>{
   });
 
 
-
   app.post("/login",(req,res,next)=>{
     const {email,password} = req.body;
     users.findOne({email:email}).then((response)=>{
@@ -55,7 +54,7 @@ app.post("/articles",(req,res)=>{
           if (result){
             const payload = {
               userId: `${response._id}`,
-              country: response.country,
+              country: response.country
             };
             const  options =  { expiresIn: '2h' }
             const token = jwt.sign(payload, SECRET, options);
@@ -65,7 +64,7 @@ app.post("/articles",(req,res)=>{
             res.json({token})
           }else{
             const err = new Error("The password is incorrect");
-            err.status = 401;
+            err.status = 404;
             next(err);
           }
         });
@@ -77,6 +76,7 @@ app.post("/articles",(req,res)=>{
     }).catch((err) => {
       res.send(err);
     });
+ 
   
 
 
@@ -164,14 +164,35 @@ app.delete("/articles",(req,res)=>{
   });
 });
 
+const authentication = (req,res,next)=>{
+  const token = req.headers.authorization.split(" ")[1];
+  console.log(token)
+
+  jwt.verify(token, SECRET, (err, result) => {
+    if (err) {
+      res.status(403)
+      return res.json({
+        message : "the token is expired",
+        status: 403
+      });
+    }
+    if (result) {
+      console.log(result)
+      next();
+    }
+  });
 
 
-app.post("/articles/:id/comments",(req,res)=>{
+
+
+
+
+app.post("/articles/:id/comments",authentication,(req,res)=>{
   const id = req.params.id
   const {comment,commenter} = req.body
   const newComment = new comments({comment,commenter})
   newComment.save().then(async (result)=>{
-   await articles.update(
+   await articles.updateOne(
     { _id: id }, 
     { $push: { comments: result._id } }
 );
