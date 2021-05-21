@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const db = require("./db")
 
-const {users,articles,comments} = require("./schema")
+const {users,articles,comments,roles} = require("./schema")
 
 const app = express();
 const port = 5000;
@@ -17,8 +17,8 @@ const SECRET = process.env.SECRET
 
 
 app.post("/users",(req,res)=>{
-  const  {firstName,lastName,age,country,email,password}= req.body
-  const newUser = new  users( {firstName,lastName,age,country,email,password})
+  const  {firstName,lastName,age,country,email,password,roles}= req.body
+  const newUser = new  users( {firstName,lastName,age,country,email,password,roles})
   newUser.save().then((result)=>{
     res.status(201)
     res.json(result)
@@ -28,10 +28,9 @@ app.post("/users",(req,res)=>{
 })
 
 
-
 app.post("/articles",(req,res)=>{
   const {title,description,author} = req.body
-  const {title,description} = req.body
+  const {titledescription} = req.body
     const newArticle = new articles({title,description,author})
   
       newArticle.save()
@@ -43,6 +42,20 @@ app.post("/articles",(req,res)=>{
       });
   
   });
+
+  app.post("/addRole",(req,res)=>{
+    const {role,permissions} = req.body
+    const newRole = new roles({role,permissions})
+    newRole.save()
+      .then((result)=>{
+        res.status(201)
+        res.json(result)
+      }).catch((err) => {
+        res.send(err);
+      });
+  });
+
+
 
 
   app.post("/login",(req,res,next)=>{
@@ -187,33 +200,34 @@ const authentication = (req,res,next)=>{
 
 
 
-app.post("/articles/:id/comments",authentication,(req,res)=>{
-  const id = req.params.id
-  const {comment,commenter} = req.body
-  const newComment = new comments({comment,commenter})
-  newComment.save().then(async (result)=>{
-   await articles.updateOne(
-    { _id: id }, 
-    { $push: { comments: result._id } }
-);
-    res.status(201)
-    res.json(result)
-  }).catch((err) => {
-    res.send(err);
+  app.post("/articles/:id/comments",authentication,(req,res)=>{
+    const id = req.params.id
+    const {comment,commenter} = req.body
+    const newComment = new comments({comment,commenter})
+    newComment.save().then(async (result)=>{
+     await articles.updateOne(
+      { _id: id }, 
+      { $push: { comments: result._id } }
+  );
+      res.status(201)
+      res.json(result)
+    }).catch((err) => {
+      res.send(err);
+    });
   });
-});
 
-app.use((err, req, res, next) => {
-  res.status(err.status);
-  res.json({
-    error: {
-      status: err.status,
-      message: err.message,
-    },
+  
+
+  app.use((err, req, res, next) => {
+    res.status(err.status);
+    res.json({
+      error: {
+        status: err.status,
+        message: err.message,
+      },
+    });
   });
-});
-
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-})
+  
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  })
