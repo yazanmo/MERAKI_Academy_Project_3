@@ -1,0 +1,50 @@
+
+.Register{
+    display: grid;
+    gap: 20px;
+    
+   
+   }
+   .RegInput{
+       width: 300px;
+       height: 20px;
+   }
+   
+   .RegisterButton{
+       margin: 5px;
+       width: 300px;
+       height: 30px;
+       background-color: rgb(99, 241, 94);
+       cursor: pointer;
+   }
+   
+  
+    .trueRegister{
+           border: 2px solid green;
+           margin:8px;
+           width: 300px;
+           height:40px;
+           background-color: rgb(130, 240, 126);
+           
+       }
+   
+       .falseRegister{
+           
+           margin:8px;
+           width: 300px;
+           height:40px;
+          
+       }
+   
+       .Navigation{
+           
+          padding: 20px;
+           margin: 20px;
+       }
+   
+       .App{
+        border: 10px ;
+        padding: 10px;
+        margin: 10px;
+    
+    }
