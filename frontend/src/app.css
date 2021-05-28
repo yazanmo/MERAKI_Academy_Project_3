@@ -1,50 +1,64 @@
 
-.Register{
-    display: grid;
+.app {
+    border: 7px solid ;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.Navigation {
+    display: flex;
     gap: 20px;
-    
-   
-   }
-   .RegInput{
-       width: 300px;
-       height: 20px;
-   }
-   
-   .RegisterButton{
-       margin: 5px;
-       width: 300px;
-       height: 30px;
-       background-color: rgb(99, 241, 94);
-       cursor: pointer;
-   }
-   
-  
-    .trueRegister{
-           border: 2px solid green;
-           margin:8px;
-           width: 300px;
-           height:40px;
-           background-color: rgb(130, 240, 126);
-           
-       }
-   
-       .falseRegister{
-           
-           margin:8px;
-           width: 300px;
-           height:40px;
-          
-       }
-   
-       .Navigation{
-           
-          padding: 20px;
-           margin: 20px;
-       }
-   
-       .App{
-        border: 10px ;
-        padding: 10px;
-        margin: 10px;
-    
-    }
+    border: 7px ;
+    padding: 10px;
+
+}
+.Register {
+    border: 7px ;
+    margin-top: 10px;
+
+}
+.login {
+    border: 7px ;
+    margin-top: 10px;
+}
+.NewArticle {
+    border: 7px ;
+    margin-top: 10px;
+}
+.RegisterInput, .loginInput, .NewArticleInput {
+    width: 300px;
+    display: flex;
+flex-direction: column;
+gap: 10px;
+}
+.RegisterInput  input, .loginInput input, .NewArticleInput input {
+    height: 25px;
+}
+#NewArticleDescription {
+    height: 75px;
+}
+
+.RegisterButton, .NewArticleButton{
+    margin-top: 15px;
+}
+.RegisterButton button, .NewArticleButton button {
+    color: white;
+    font-size: 20px;
+    width: 300px;
+    height: 35px;
+    background-color: rgb(75, 75, 255);
+}
+
+.created{
+    width: 300px;
+    background-color: green;
+    height: 50px;
+    text-align: center;
+}
+
+
+.errCreated{
+    width: 300px;
+    height: 50px;
+    text-align: center;
+}

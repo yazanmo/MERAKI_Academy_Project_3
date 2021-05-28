@@ -1,33 +1,57 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 
-export default function Login(props) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export default function Login({loginFun,token}) {
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState('')
+  const chick = () => {
 
-    const cheakLogin = () => {     
-        const login={email:email, password:password};
-         axios.post(`http://localhost:5000/login`,login)
-            .then((response) => {
-            { console .log(response)}
-            })
-            .catch((err)=>{
-               console.log("error")
-           })
-        }
- return (
-        <>
-            <div className="Login">
-                <input className="LoginInput" type="text" placeholder="Enter the email" onChange={(e) => {
-                setEmail(e.target.value);
-            }}/>
-                <input className="LoginInput" type="password" placeholder="Enter the password" onChange={(e) => {
-                setPassword(e.target.value);
-            }}/>
+      axios.post("http://localhost:5000/login",{
+        email,password
+      }).then(result=>{
+          console.log(result)
+          if (result.status == 200){
+            loginFun(result.data.token)
+            history.push("/dashboard");
 
-                <button className="LoginButton" onClick={cheakLogin}>Login</button>
-            </div>
-        </>
-    );
+
+          }
+      }).catch((error)=>{
+          setLoginError(error.response.data)
+
+      })
+
+
+  };
+  return (
+    <div className="login">
+      <p>Login:</p>
+      <div className="loginInput">
+        <input
+          type="text"
+          placeholder="your Email "
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <input
+          type="password"
+          placeholder="your Password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+      </div>
+      <div className="RegisterButton">
+        <button onClick={chick}>login</button>
+      </div>
+      <div >{ loginError ?  <p className="errCreated">{loginError}</p> : "" }</div>
+
+    </div>
+  );
 }

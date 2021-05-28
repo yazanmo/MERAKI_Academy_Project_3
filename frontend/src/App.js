@@ -1,26 +1,25 @@
-import React from 'react';
-import Register from './components/register';
-import Login from './components/Login';
-import {  Route, Link } from 'react-router-dom';
+import React ,{useState} from 'react';
+import { Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
 import './app.css';
+import Navigation from "./components/Navigation"
+import Register from "./components/Register"
+import Login from "./components/Login"
+import Dashboard from "./components/Dashboard"
+import NewArticle from "./components/NewArticle"
+
 
 
 export default function App() {
+const [token, setToken] = useState('');
   return (
-    <div className="App"> 
-      <Navigation />
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/login" render={() => <Login  />} />
+    <div className="app">
+      <Navigation token = {token} />
+      <Route exact path="/register" component={Register}  />
+      <Route exact path="/login" render={() => <Login loginFun={setToken} token = {token} />} />
+      <Route exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/newArticle" component={NewArticle} />
+
+
     </div>
   );
 }
-
-
-const Navigation = () => {
-  return (
-    <div className="Navigation" style={{ display: 'flex', gap: '16px' }}>
-      <Link to="/register">Register</Link>
-      <Link to="/login">Login</Link>
-    </div>
-  );
-};
