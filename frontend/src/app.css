@@ -38,10 +38,10 @@ gap: 10px;
     height: 75px;
 }
 
-.RegisterButton, .NewArticleButton{
+.RegisterButton, .NewArticleButton,.DashboardButton{
     margin-top: 15px;
 }
-.RegisterButton button, .NewArticleButton button {
+.RegisterButton button, .NewArticleButton button ,.DashboardButton button{
     color: white;
     font-size: 20px;
     width: 300px;
@@ -61,4 +61,23 @@ gap: 10px;
     width: 300px;
     height: 50px;
     text-align: center;
+}
+
+.Dashboard{
+    border: 7px;
+    margin-top: 10px;
+}
+
+.allArticlesP {
+    display: flex;
+    flex-flow :  wrap;
+    justify-content: space-between;
+
+
+}
+
+.allArticlesCH {
+    width: 49%;
+border: 2px ;
+padding-left: 10px;
 }
