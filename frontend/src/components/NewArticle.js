@@ -1,11 +1,29 @@
 import React, { useState } from "react";
-
 import axios from "axios";
 
-export default function NewArticle() {
+export default function NewArticle({ token }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const chick = ()=>{
+  const [massage, setMassage] = useState(false);
+  const [errorMassage, setErrorMassage] = useState(false);
+  const chick = () => {
+
+    axios.post("http://localhost:5000/articles",{ title, description },
+        {
+          headers: {
+            authorization: "Bearer" + token,
+          },
+        }
+      ).then((result) => {
+        if (result.status === 201) {
+            setErrorMassage(false)
+            setMassage(true);
+        }else{
+            setErrorMassage(true)
+        }
+      }).catch(error=>{
+          console.log(error)
+      })
 
   };
 
@@ -16,17 +34,34 @@ export default function NewArticle() {
         <div className="NewArticleInput">
           <input
             type="text"
-            placeholder="Title"
-            onChange={(e) => {setTitle(e.target.value); }}
+            placeholder="Title "
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
-          <input id = "NewArticleDescription"
+          <input
+            id="NewArticleDescription"
             type="text"
-            placeholder="Description "
-            onChange={(e) => {setDescription(e.target.value);}}
+            placeholder="Description"
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
           />
         </div>
         <div className="NewArticleButton">
           <button onClick={chick}>Create New Article </button>
+        </div>
+        <div>
+          {massage ? (
+            <p className="created">The article has been created successfully</p>
+          ) : ("")}
+        </div>
+        <div>
+          {errorMassage ? (
+            <p className="errCreated">
+              Error happened while creating new article, please try again{" "}
+            </p>
+          ) : ("")}
         </div>
       </div>
     </div>

@@ -18,8 +18,6 @@ export default function Login({loginFun,token}) {
           if (result.status == 200){
             loginFun(result.data.token)
             history.push("/dashboard");
-
-
           }
       }).catch((error)=>{
           setLoginError(error.response.data)
